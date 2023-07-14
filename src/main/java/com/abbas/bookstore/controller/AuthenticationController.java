@@ -49,7 +49,7 @@ public class AuthenticationController {
 
         userService.createUser(newUser);
 
-      return new ResponseEntity<>(HttpStatus.OK);
+      return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/authenticate")
@@ -81,6 +81,9 @@ public class AuthenticationController {
         response.setRole(role);
         response.setFirstname(user.getFirstname());
         response.setLastname(user.getLastname());
+        response.setId(user.getId());
+        response.setPassword(user.getPassword());
+        response.setEmail(user.getEmail());
 
         return ResponseEntity.ok(response);
     }
