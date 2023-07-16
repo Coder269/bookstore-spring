@@ -1,6 +1,5 @@
 package com.abbas.bookstore.controller;
 
-import com.abbas.bookstore.model.Book;
 import com.abbas.bookstore.model.Purchase;
 import com.abbas.bookstore.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
