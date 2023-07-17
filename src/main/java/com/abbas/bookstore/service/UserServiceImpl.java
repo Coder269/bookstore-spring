@@ -66,6 +66,24 @@ public class UserServiceImpl implements UserService{
         userRepository.updateUserRole(email, Role.ADMIN);
     }
 
+    @Override
+    @Transactional
+    public void updateUserFirstname(Long id, String firstname){
+        userRepository.updateUserFirstname(id, firstname);
+    }
 
+    @Override
+    @Transactional
+    public void updateUserLastname(Long id, String lastname){
+        userRepository.updateUserLastname(id, lastname);
+    }
 
+    @Override
+    @Transactional
+    public void updateUserEmail(Long id, String email){
+        userRepository.updateUserEmail(id, email);
+    }
+
+    @Override
+    public User findUserById(Long id) { return userRepository.findById(id).orElse(null);  }
 }

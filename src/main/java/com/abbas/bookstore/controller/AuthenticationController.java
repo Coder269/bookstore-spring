@@ -73,17 +73,9 @@ public class AuthenticationController {
 
         String jwt = jwtUtil.generateToken(userDetails);
 
-        // Extract the role from the User object
-        Role role = user.getRole();
-
         // Return the JWT and the role in the response
         AuthenticationResponse response = new AuthenticationResponse(jwt);
-        response.setRole(role);
-        response.setFirstname(user.getFirstname());
-        response.setLastname(user.getLastname());
         response.setId(user.getId());
-        response.setPassword(user.getPassword());
-        response.setEmail(user.getEmail());
 
         return ResponseEntity.ok(response);
     }

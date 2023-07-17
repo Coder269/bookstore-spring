@@ -19,4 +19,14 @@ public interface UserService {
     @Transactional
     void makeAdmin(String email);
 
+    @Transactional
+    void updateUserFirstname(Long id, String firstname);
+
+    @Transactional
+    void updateUserLastname(Long id, String lastname);
+
+    @Transactional
+    void updateUserEmail(Long id, String email);
+
+    User findUserById(Long id);
 }

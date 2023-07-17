@@ -13,14 +13,30 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/admin/user-update")
-    public ResponseEntity<?> updateUser(@RequestBody User user){
-        User existUser = userService.findUserByEmail(user.getEmail());
-        if (existUser != null) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>(userService.updateUser(user), HttpStatus.OK);
+    @PutMapping("/admin/update-email/{id}")
+    public ResponseEntity<?> updateEmail(@PathVariable("id") Long id, @RequestBody String email){
+
+        userService.updateUserEmail(id, email);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/admin/update-firstname/{id}")
+    public ResponseEntity<?> updateFirstname(@PathVariable("id") Long id, @RequestBody String firstname){
+
+        userService.updateUserFirstname(id, firstname);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/admin/update-lastname/{id}")
+    public ResponseEntity<?> updateLastname(@PathVariable("id") Long id, @RequestBody String lastname){
+
+       userService.updateUserLastname(id, lastname);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/admin/user-delete/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
@@ -38,4 +54,7 @@ public class UserController {
     public ResponseEntity<?> findAllUsers(){
         return new ResponseEntity<>(userService.findAllUsers(), HttpStatus.OK);
     }
+
+    @GetMapping("/user-info/{id}")
+    public ResponseEntity<?> getUserInfo(@PathVariable("id") Long id) { return new ResponseEntity<>(userService.findUserById(id), HttpStatus.OK); }
 }
