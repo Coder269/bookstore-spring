@@ -1,7 +1,6 @@
 package com.abbas.bookstore.controller;
 
 
-import com.abbas.bookstore.model.Role;
 import com.abbas.bookstore.model.User;
 import com.abbas.bookstore.model.auth.AuthenticationResponse;
 import com.abbas.bookstore.model.auth.SigninRequest;
@@ -11,9 +10,6 @@ import com.abbas.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +56,7 @@ public class AuthenticationController {
 
         if (user == null )
         {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email not found!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email is not found!");
         }
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
