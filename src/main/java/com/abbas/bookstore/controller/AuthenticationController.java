@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class AuthenticationController {
     private JwtUtils jwtUtil;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private PasswordEncoder passwordEncoder;
 
 
     @PostMapping("/register")
@@ -54,22 +55,22 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> signIn(@RequestBody SigninRequest signinRequest) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            signinRequest.getEmail(),
-                            signinRequest.getPassword()
-                    )
-            );
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid username or password");
-        }
 
         User user = userService.findUserByEmail(signinRequest.getEmail());
+
+        if (user == null )
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Email not found!");
+        }
 
         UserDetails userDetails = new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPassword(), new ArrayList<>()
         );
+
+        if (!passwordEncoder.matches(signinRequest.getPassword(), userDetails.getPassword()))
+        {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Password in not correct!");
+        }
 
         String jwt = jwtUtil.generateToken(userDetails);
 

@@ -16,6 +16,13 @@ public class UserController {
     @PutMapping("/admin/update-email/{id}")
     public ResponseEntity<?> updateEmail(@PathVariable("id") Long id, @RequestBody String email){
 
+        User currentUser = userService.findUserById(id);
+
+        if (userService.findUserByEmail(email) != null && currentUser != userService.findUserByEmail(email))
+        {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
         userService.updateUserEmail(id, email);
 
         return new ResponseEntity<>(HttpStatus.OK);
